@@ -43,7 +43,7 @@ class Board(object):
         w = move % self.width
         return [h, w]
 
-    def location_to_move(self, location):
+    def location_to_move(self, location: list[int]) -> int:
         if len(location) != 2:
             return -1
         h = location[0]
@@ -52,27 +52,6 @@ class Board(object):
         if move not in range(self.width * self.height):
             return -1
         return move
-
-    def current_state(self):
-        """return the board state from the perspective of the current player.
-        state shape: 4*width*height
-        """
-
-        square_state = np.zeros((4, self.width, self.height))
-        if self.states:
-            moves, players = np.array(list(zip(*self.states.items())))
-            move_curr = moves[players == self.current_player]
-            move_oppo = moves[players != self.current_player]
-            square_state[0][move_curr // self.width,
-                            move_curr % self.height] = 1.0
-            square_state[1][move_oppo // self.width,
-                            move_oppo % self.height] = 1.0
-            # indicate the last move location
-            square_state[2][self.last_move // self.width,
-                            self.last_move % self.height] = 1.0
-        if len(self.states) % 2 == 0:
-            square_state[3][:, :] = 1.0  # indicate the colour to play
-        return square_state[:, ::-1, :]
 
     def do_move(self, move):
         self.states[move] = self.current_player
@@ -132,8 +111,9 @@ class Board(object):
 class Game(object):
     """game server"""
 
-    def __init__(self, board, **kwargs):
+    def __init__(self, board : Board, **kwargs):
         self.board = board
+        
 
     def graphic(self, board, player1, player2):
         """Draw the board and show game info"""
@@ -152,9 +132,9 @@ class Game(object):
                 loc = i * width + j
                 p = board.states.get(loc, -1)
                 if p == player1:
-                    print('X'.center(8), end='')
+                    print_red('X'.center(8), end='')
                 elif p == player2:
-                    print('O'.center(8), end='')
+                    print_blue('O'.center(8), end='')
                 else:
                     print('_'.center(8), end='')
             print('\r\n\r\n')
@@ -174,7 +154,12 @@ class Game(object):
         while True:
             current_player = self.board.get_current_player()
             player_in_turn = players[current_player]
+
             move = player_in_turn.get_action(self.board)
+
+            location = self.board.move_to_location(move)
+            print(player_in_turn, f"choose: ({location[0]},{location[1]})", end="\n\n")
+            
             self.board.do_move(move)
             if is_shown:
                 self.graphic(self.board, player1.player, player2.player)
@@ -187,37 +172,11 @@ class Game(object):
                         print("Game end. Tie")
                 return winner
 
-    def start_self_play(self, player, is_shown=0, temp=1e-3):
-        """ start a self-play game using a MCTS player, reuse the search tree,
-        and store the self-play data: (state, mcts_probs, z) for training
-        """
-        self.board.init_board()
-        p1, p2 = self.board.players
-        states, mcts_probs, current_players = [], [], []
-        while True:
-            move, move_probs = player.get_action(self.board,
-                                                 temp=temp,
-                                                 return_prob=1)
-            # store the data
-            states.append(self.board.current_state())
-            mcts_probs.append(move_probs)
-            current_players.append(self.board.current_player)
-            # perform a move
-            self.board.do_move(move)
-            if is_shown:
-                self.graphic(self.board, p1, p2)
-            end, winner = self.board.game_end()
-            if end:
-                # winner from the perspective of the current player of each state
-                winners_z = np.zeros(len(current_players))
-                if winner != -1:
-                    winners_z[np.array(current_players) == winner] = 1.0
-                    winners_z[np.array(current_players) != winner] = -1.0
-                # reset MCTS root node
-                player.reset_player()
-                if is_shown:
-                    if winner != -1:
-                        print("Game end. Winner is player:", winner)
-                    else:
-                        print("Game end. Tie")
-                return winner, zip(states, mcts_probs, winners_z)
+def colored(r, g, b, text):
+    return "\033[38;2;{};{};{}m{}\033[38;2;255;255;255m".format(r, g, b, text)
+
+def print_red(text, end):
+    print(colored(255,0,0,text), end=end)
+
+def print_blue(text, end):
+    print(colored(0,0,255,text), end=end)
