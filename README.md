@@ -1,64 +1,94 @@
-## AlphaZero-Gomoku
-This is an implementation of the AlphaZero algorithm for playing the simple board game Gomoku (also called Gobang or Five in a Row) from pure self-play training. The game Gomoku is much simpler than Go or chess, so that we can focus on the training scheme of AlphaZero and obtain a pretty good AI model on a single PC in a few hours. 
+# Gomoku Bot Competition
+Made by Dimas Faidh Muzaki
 
-References:  
-1. AlphaZero: Mastering Chess and Shogi by Self-Play with a General Reinforcement Learning Algorithm
-2. AlphaGo Zero: Mastering the game of Go without human knowledge
+## Latar Belakang
+Masih ingatkah kalian dengan tugas besar 1 stima kalian ? Kalian diminta membuat bot untuk memenangkan sebuah game kapal perasng. Tujuan dari task ini adalah sama, yaitu membuat bot dengan menggunakan algoritma greedy. Tapi pada kali ini game yang berusaha dimenangkan adalah Gomoku atau sering disebut five in a row. Berbeda dengan task lainnya, task ini akan membandingkan hasil kerja kalian dengan teman seleksi lainnya dalam sebuah kompetisi. Jadi distribusi skor akan berdasarkan pemenang dari kompetisi. Maka kalian harus bisa membuat bot seoptimal mungkin. Good Luck Have Fun!
 
-### Update 2018.2.24: supports training with TensorFlow!
-### Update 2018.1.17: supports training with PyTorch!
+## Spesifikasi
+* Pada task ini kalian akan membuat sebuah Bot Gomoku memanfaatkan algoritma Greedy
+* Bot dibuat dengan mengoverwrite kelas Bot13521xxx di dalam `bots/bot_13521xxx.py`. Silakan ubah nilai xxx dengan NIM kalian. Selain itu, ubah nilai atribut NIM menjadi NIM kalian
+* Pastikan method-method lain selain get_input tidak berubah di dalam submisi kalian.
+* Silakan modifikasi method get_input sesuai strategi kalian. Pastikan keluarannya adalah sebuah string "x,y" yang menggambarkan koordinat board untuk menaruh pion
+* Berikut spesifikasi dari game Connect Four yang akan digunakan:
+  1. Ukurang board adalah 8x8
+  2. Thinking time dari bot maksimal 3 detik. Setelah timeout, bot akan dianggap kalah
+* **Dilarang** mengambil atau menggunakan algoritma dari internet ataupun teman seleksi lainnya. 
+* **Dilarang** mengimplementasikan algoritma selain metode Greedy
+* Peserta yang melanggar aturan diatas akan diskualifikasi dari kompetisi dan tidak dapat mendapatkan skor.
 
-### Example Games Between Trained Models
-- Each move with 400 MCTS playouts:  
-![playout400](https://raw.githubusercontent.com/junxiaosong/AlphaZero_Gomoku/master/playout400.gif)
+## Teknis Kompetisi
+* Kompetisi dimulai ketika submisi pertama dilakukan
+* Kompetisi ini akan berlangsung selama keberjalanan seleksi asisten IRK
+* Pemenang dari kompetisi akan ditentukan dari peserta yang berhasil mengumpulkan poin terbanyak di akhir kompetisi (**berbeda dengan poin seleksi**)
+* Peserta dapat mengumpulkan poin berdasarkan **peringkat** dari memenangkan **daily tournament** yang akan diadakan 5 kali dalam seminggu (jam 12:00), pada hari kerja. 
+* **Daily tournament** menggunakan format round-robin tournament. Dengan begitu, semua bot submisi akan saling bertanding satu kali.
+* Pada setiap pertandingan, bot yang menang akan mendapat 2 poin, sedangkan bot yang kalah tidak mendapat poin. Jika hasil pertandingan adalah seri maka kedua bot akan mendapatkan masing-masing 1 poin.
+* Hasil peringkat pada tiap turnamen akan menentukan perolehan poin peserta dalam kompetisi ini.
+* Poin kompetisi dilihat dari peringkat dan jumlah bot yang berpartisipasi dalam turnamen. Peringkat pertama akan mendapatkan n poin kompetisi, dengan n adalah jumlah partisipan. Peringkat selanjutnya mendapat poin kompetisi sebesar n-1 sampai peringkat terakhir mendapat poin kompetisi sebesar 1.
+* Bila terdapat kesamaan pada poin turnamen maka akan mereka yang berpoin turnamen sama akan mendapat poin kompetisi tertinggi yang mungkin.
 
-### Requirements
-To play with the trained AI models, only need:
-- Python >= 2.7
-- Numpy >= 1.11
+* Anda bingung? Coba lihat contoh ini.
+### Turnamen Senin
 
-To train the AI model from scratch, further need, either:
-- Theano >= 0.7 and Lasagne >= 0.1      
-or
-- PyTorch >= 0.2.0    
-or
-- TensorFlow
+| Posisi | Bot | Menang | Kalah | Seri | Poin turnamen | Poin Kompetisi |   
+| ----------- | ----- | ----------- | ----------- | ----------- | ----------- | ----------- |
+| 1   | Bot13521999 | 3 | 0 | 0 | 6 | 4
+| 2   | Bot13521888 | 1 | 1 | 1 | 3 | 3
+| 3   | Bot13521777 | 1 | 1 | 1 | 3 | 3
+| 4   | Bot13521666 | 0 | 0 | 3 | 0 | 1
 
-**PS**: if your Theano's version > 0.7, please follow this [issue](https://github.com/aigamedev/scikit-neuralnetwork/issues/235) to install Lasagne,  
-otherwise, force pip to downgrade Theano to 0.7 ``pip install --upgrade theano==0.7.0``
+Scoreboard Kompetisi
+| Posisi | Peserta | Poin Kompetisi |
+| ----------- | ----------- | - |
+| 1   | 13521999 | 4 |
+| 2   | 13521888 | 3 |
+| 3   | 13521777 | 3 |
+| 4   | 13521666 | 2 |
 
-If you would like to train the model using other DL frameworks, you only need to rewrite policy_value_net.py.
+### Turnamen Selasa
+| Posisi | Bot | Menang | Kalah | Seri | Poin turnamen | Poin Kompetisi |   
+| ----------- | ----- | ----------- | ----------- | ----------- | ----------- | ----------- |
+| 1   | Bot13521888 | 4 | 0 | 0 | 8 | 5
+| 2   | Bot13521666 | 3 | 0 | 1 | 6 | 4
+| 3   | Bot13521999 | 2 | 0 | 2 | 4 | 3
+| 4   | Bot13521555 | 1 | 0 | 3 | 2 | 2
+| 4   | Bot13521777 | 0 | 0 | 4 | 0 | 1
 
-### Getting Started
-To play with provided models, run the following script from the directory:  
-```
-python human_play.py  
-```
-You may modify human_play.py to try different provided models or the pure MCTS.
+Scoreboard Kompetisi
+| Posisi | Peserta | Poin Kompetisi |
+| ----------- | ----------- | - |
+| 1   | 13521888 | 8 |
+| 2   | 13521999 | 7 |
+| 3   | 13521666 | 6 |
+| 4   | 13521777 | 4 |
+| 5   | 13521555 | 2 |
 
-To train the AI model from scratch, with Theano and Lasagne, directly run:   
-```
-python train.py
-```
-With PyTorch or TensorFlow, first modify the file [train.py](https://github.com/junxiaosong/AlphaZero_Gomoku/blob/master/train.py), i.e., comment the line
-```
-from policy_value_net import PolicyValueNet  # Theano and Lasagne
-```
-and uncomment the line 
-```
-# from policy_value_net_pytorch import PolicyValueNet  # Pytorch
-or
-# from policy_value_net_tensorflow import PolicyValueNet # Tensorflow
-```
-and then execute: ``python train.py``  (To use GPU in PyTorch, set ``use_gpu=True`` and use ``return loss.item(), entropy.item()`` in function train_step in policy_value_net_pytorch.py if your pytorch version is greater than 0.5)
+*p.s. Lihat bahwa lebih baik ikut berkompetisi sesegera mungkin
 
-The models (best_policy.model and current_policy.model) will be saved every a few updates (default 50).  
+* Scoreboard kompetisi dan informasi **Daily tournament** dapat dilihat pada [sheet berikut]()
+* Berikut distribusi skor pada pemenang kompetisi setelah kompetisi berakhir:
 
-**Note:** the 4 provided models were trained using Theano/Lasagne, to use them with PyTorch, please refer to [issue 5](https://github.com/junxiaosong/AlphaZero_Gomoku/issues/5).
+| Posisi | Poin Seleksi |
+| ----------- | ----------- |
+| 1   | 2500 |
+| 2   | 2250 |
+| 3   | 2000 |
+| 4   | 1750 |
+| 5   | 1500 |
+| 6   | 1250 |
+| 7   | 1000 |
+| 8 | 750 |
+| 9 - dst. | 500 |
 
-**Tips for training:**
-1. It is good to start with a 6 * 6 board and 4 in a row. For this case, we may obtain a reasonably good model within 500~1000 self-play games in about 2 hours.
-2. For the case of 8 * 8 board and 5 in a row, it may need 2000~3000 self-play games to get a good model, and it may take about 2 days on a single PC.
+## Pengerjaan & Pengumpulan Bot
+1. Clone repository ini pada sebuah repository private pada github Anda dan invite `maspaitujaki` ke dalam repository tersebut.
+3. Submisi bot pada website dan lakukan konfirmkasi ke LINE @oohmasdim.
+4. Memberikan tag `vn` pada commit terakhir Anda setiap kali ingin melakukan submisi bot dengan n adalah urutan submisi keberapa. (contoh: `v1` untuk submisi pertama)
+5. Setiap peserta maksimal hanya dapat melakukan submisi bot sebanyak 5x, jadi pastikan bot yang dikumpulkan tidak ada error atau bug.
+6. Peserta yang mengumpulkan bot setelah jam 12.00 WIB siang tidak dapat mengikuti **Daily tournament** hari tersebut.
+7. Jika ada pertanyaan silahkan buat issues di [repository original](https://github.com/maspaitujaki/Gomoku_IRK)
 
-### Further reading
-My article describing some details about the implementation in Chinese: [https://zhuanlan.zhihu.com/p/32089487](https://zhuanlan.zhihu.com/p/32089487) 
+## Credit
+Original game by [junxiaosong](https://github.com/junxiaosong/AlphaZero_Gomoku)
+
+Thanks to Kak Jonathan CJ IRK'19
