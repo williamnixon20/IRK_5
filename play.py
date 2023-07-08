@@ -10,8 +10,7 @@ Dimodifikasi untuk kepentingan seleksi Asisten'21 Laboratorium IRK STEI ITB
 from __future__ import print_function
 from game import Board, Game
 from human import Human
-from bots.bot_13521xxx import Bot13521xxx
-
+from bots.Bot13521xxx import Bot13521xxx
 def run():
     n = 5
     width, height = 8, 8
@@ -23,7 +22,7 @@ def run():
             TODO: Ganti isi variabel player menjadi bot mu
         """
         player1 = Bot13521xxx()
-        player2 = Bot13521xxx()
+        player2 = Human()
 
         winner = game.start_play(player1, player2, start_player=1, is_shown=1)
         print("SELAMAT KEPADA: ", winner)

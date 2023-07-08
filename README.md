@@ -6,7 +6,7 @@ Masih ingatkah kalian dengan tugas besar 1 stima kalian ? Kalian diminta membuat
 
 ## Spesifikasi
 * Pada task ini kalian akan membuat sebuah Bot Gomoku memanfaatkan algoritma Greedy
-* Bot dibuat dengan mengoverwrite kelas Bot13521xxx di dalam `bots/bot_13521xxx.py`. Silakan ubah nilai xxx dengan NIM kalian. Selain itu, ubah nilai atribut NIM menjadi NIM kalian
+* Bot dibuat dengan mengoverwrite kelas Bot13521xxx di dalam `bots/Bot13521xxx.py`. Silakan ubah nilai xxx dengan NIM kalian. Selain itu, ubah nilai atribut NIM menjadi NIM kalian
 * Pastikan method-method lain selain get_input tidak berubah di dalam submisi kalian.
 * Silakan modifikasi method get_input sesuai strategi kalian. Pastikan keluarannya adalah sebuah string "x,y" yang menggambarkan koordinat board untuk menaruh pion
 * Berikut spesifikasi dari game Connect Four yang akan digunakan:
