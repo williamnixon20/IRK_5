@@ -6,7 +6,7 @@
 from __future__ import print_function
 import numpy as np
 import threading
-import util.globals as globals
+import globals as globals
 
 
 class Board(object):

@@ -1,6 +1,6 @@
 import random
 from game import Board
-import util.globals as globals
+import globals as globals
 
 class Bot13521xxx(object):
     """
