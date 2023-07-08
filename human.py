@@ -7,6 +7,7 @@ class Human(object):
 
     def __init__(self):
         self.player = None
+        self.NIM = 'Human'
 
     def set_player_ind(self, p):
         self.player = p
@@ -17,7 +18,7 @@ class Human(object):
         
     def get_action(self, board, return_var):
         try:
-            location = self.get_input(board)
+            location = self.get_input()
             if isinstance(location, str):  # for python3
                 location = [int(n, 10) for n in location.split(",")]
             move = board.location_to_move(location)

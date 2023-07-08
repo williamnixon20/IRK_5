@@ -160,23 +160,26 @@ class Game(object):
             try:
                 ret = []
                 globals.initialize()
-                t = threading.Thread(target=player_in_turn.get_action, args=(self.board,ret))
+                if player_in_turn.NIM == 'Human':
+                    player_in_turn.get_action(self.board,ret)
+                else:
+                    t = threading.Thread(target=player_in_turn.get_action, args=(self.board,ret))
 
-                t.start()
+                    t.start()
 
-                # 3 Seconds timeout
-                t.join(3)
+                    # 3 Seconds timeout
+                    t.join(3)
 
-                # If thread is still active
-                if t.is_alive():
-                    print("Timeout execeeded. Considered as lose")
+                    # If thread is still active
+                    if t.is_alive():
+                        print("Timeout execeeded. Considered as lose")
 
-                    # Terminate - may not work if process is stuck for good
-                    globals.stop_threads = True
-                    # OR Kill - will work for sure, no chance for process to finish nicely however
-                    # t.kill()
+                        # Terminate - may not work if process is stuck for good
+                        globals.stop_threads = True
+                        # OR Kill - will work for sure, no chance for process to finish nicely however
+                        # t.kill()
 
-                    t.join()
+                        t.join()
 
                 move = ret[0]
             except:
